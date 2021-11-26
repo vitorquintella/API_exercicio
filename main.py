@@ -9,15 +9,21 @@ app = Flask(__name__)
 api = Api(app)
 
 
-class Dados(Resource):
-    def get(self):
-        df = self._get_data()
-        df = df.to_dict()  # convert dataframe to dictionary
-        return {'data': df}, 10  # return data and 200 OK code
+def fetch_exercise_data_online():
+    url = 'https://raw.githubusercontent.com/vitorquintella/API_exercicio/main/get_from_web/BankChurners.csv'
+    return pd.read_csv(url, delimiter=";")
 
-    def _get_data(self):
-        url = 'https://raw.githubusercontent.com/vitorquintella/API_exercicio/main/get_from_web/BankChurners.csv'
-        return pd.read_csv(url, delimiter=";")
+
+class Dados(Resource):
+    def __init__(self):
+        super().__init__()
+        self.df = fetch_exercise_data_online()
+
+    def get(self):
+        # df_dict = self.df.head().to_dict()
+        df_dict = self.df.to_dict()
+        return {'data': df_dict}
+
 
 class Graficos(Resource):
     def get(self):
