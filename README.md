@@ -12,7 +12,7 @@ Exemplo de uso:
 
 2 - Acessar o IP(O ip gerado pode variar), seguido de /filtro/Gold:
 
-    eg.:  http://127.0.0.1:5000/filtro/Gold
+    eg.:  http://127.0.0.1:5000/filtro/Silver
 
 3 - É possível substituir o Gold por:
 
