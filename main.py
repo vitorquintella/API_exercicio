@@ -34,10 +34,11 @@ class Filtro(Resource):
         self._generate_Churn_Education_plot()
         self._generate_corr_plot()
 
-        return self.df_groupedby.to_json()
+        return f'Tudo ok: Dados do cartao "{self.card}" persistidos no sistema.'
 
     def _perpetuar_agrupados(self):
         self.df_groupedby.to_csv(f'{self.card}_card_GroupedData.csv')
+        self.df_groupedby.to_json(f'{self.card}_card_GroupedData.json')
 
     def _agrupar_marital_status(self, df):
         self.df_groupedby = df.groupby('Marital_Status').mean()[['Total_Trans_Amt']]
@@ -47,21 +48,21 @@ class Filtro(Resource):
         plot1 = plt.bar(x=self.df_groupedby.reset_index()['Marital_Status'],
                 height=self.df_groupedby.reset_index()['Total_Trans_Amt'])
         plt.title(f'{self.card} card: Gasto agrupado por Total_Trans_Amt')
-        plt.savefig(f'{self.card}_card_SimplesGastoAgrupadoPorMaritalStatus.png')
+        plt.savefig(f'{self.card}_card_g1_SimplesGastoAgrupadoPorMaritalStatus.png')
         plt.clf()
 
     def _generate_Churn_Education_plot(self):
         plt.figure(figsize=(10, 5))
         plot2 = sns.countplot(x=self.df['Education_Level'], hue=self.df['Attrition_Flag'])
         plt.title(f'{self.card} card: Churn por Education Level')
-        plt.savefig(f'{self.card}_card_ChurnporEducationLevel.png')
+        plt.savefig(f'{self.card}_card_g2_ChurnporEducationLevel.png')
         plt.clf()
 
     def _generate_corr_plot(self):
         plt.figure(figsize=(10, 8))
         plot3 = sns.heatmap(self.df.corr(), cmap='coolwarm', vmin=-1, vmax=1)
         plt.title(f'{self.card} card: HeatMap de correlação')
-        plt.savefig(f'{self.card}_card_HeatMapDeCorrelacao.png')
+        plt.savefig(f'{self.card}_card_g3_HeatMapDeCorrelacao.png')
         plt.clf()
 
 
