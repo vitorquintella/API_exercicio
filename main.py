@@ -24,7 +24,6 @@ class Filtro(Resource):
             'Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_2'
         ])
         self.df_groupedby = None
-        print('Pode-se testar com: http://127.0.0.1:5000/Blue')
 
     def get(self, card):
         self.card = card
@@ -71,8 +70,15 @@ class Filtro(Resource):
         df = self.df[dado_procurado]
         return df
 
+class Home(Resource):
+    def get(self):
+        texto_home = ("Use '/filtro/*ClasseCartao*'  "
+                      "Onde *ClasseCartao* eh uma das seguintes opcoes: "
+                      "'Blue', 'Gold', 'Silver' ou 'Platinum'")
+        return texto_home
 
-api.add_resource(Filtro,  '/<string:card>')  # '/dados' is our entry point for dados
+api.add_resource(Filtro,  '/filtro/<string:card>')
+api.add_resource(Home,'/')
 
 
 if __name__ == '__main__':
